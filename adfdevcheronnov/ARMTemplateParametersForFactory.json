@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfdevcheronnov"
+		},
+		"LS_SQLSERVER_ADVENTRURE_DB_password": {
+			"value": ""
+		},
+		"LS_Src_Onprem_SqlServer_DW_password": {
+			"value": ""
+		},
+		"LS_ADLS_ADLS_GENERIC_PARAM_properties_typeProperties_url": {
+			"value": "@{linkedService().adlsstorageaccounrname}"
+		},
+		"LS_REST_API_ADLS_SRC_properties_typeProperties_url": {
+			"value": "@{linkedService().restAPIBaseURL}"
+		},
+		"LS_SQLSERVER_ADVENTRURE_DB_properties_typeProperties_server": {
+			"value": "ZINEETH\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_ADVENTRURE_DB_properties_typeProperties_database": {
+			"value": "AdventureWorks2025"
+		},
+		"LS_SQLSERVER_ADVENTRURE_DB_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"LS_SQL_ADLS_SINK_properties_typeProperties_url": {
+			"value": "@{linkedService().URL}"
+		},
+		"LS_SqlTable_Parquet_properties_typeProperties_url": {
+			"value": "@{linkedService().URLname}"
+		},
+		"LS_Src_Onprem_SqlServer_DW_properties_typeProperties_server": {
+			"value": "ZINEETH\\SQLEXPRESS"
+		},
+		"LS_Src_Onprem_SqlServer_DW_properties_typeProperties_database": {
+			"value": "sqlmigration"
+		},
+		"LS_Src_Onprem_SqlServer_DW_properties_typeProperties_userName": {
+			"value": "sa"
+		}
+	}
+}
