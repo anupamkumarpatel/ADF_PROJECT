@@ -1,0 +1,44 @@
+{
+	"name": "PL_ADLS_SQLSERVER_ONPREM_PROCEDURE",
+	"properties": {
+		"activities": [
+			{
+				"name": "ADLSCSV_SQLSERVER_TABLE_INSERT_Stored_procedure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[InsertCustomer]",
+					"storedProcedureParameters": {
+						"CustomerID": {
+							"value": "102",
+							"type": "Int32"
+						},
+						"FirstName": {
+							"value": "Ram",
+							"type": "String"
+						},
+						"LastName": {
+							"value": "Singh",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_SQLSERVER_ADVENTRURE_DB",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-11-13T21:30:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

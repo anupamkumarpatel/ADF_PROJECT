@@ -1,0 +1,49 @@
+{
+	"name": "DS_ADLS_CSV_GENERIC_PARAM_SRC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_ADLS_GENERIC_PARAM",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"adlsstorageaccounrname": "https://adlsdevcheronnov.dfs.core.windows.net"
+			}
+		},
+		"parameters": {
+			"filesystemname": {
+				"type": "string",
+				"defaultValue": "landing"
+			},
+			"directoryname": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().directoryname",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().filesystemname",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

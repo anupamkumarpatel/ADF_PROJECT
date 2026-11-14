@@ -1,0 +1,55 @@
+{
+	"name": "PL_DELETE_OLD_FILE_ADLS",
+	"properties": {
+		"activities": [
+			{
+				"name": "Delete1",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_ADLS_PARQUET_GENERIC_PARAM_SINK",
+						"type": "DatasetReference",
+						"parameters": {
+							"filesystemname": "landing",
+							"directoryname": "output",
+							"filename": {
+								"value": "@pipeline().parameters.filename",
+								"type": "Expression"
+							}
+						}
+					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "LS_ADLS_ADLS_GENERIC_PARAM",
+							"type": "LinkedServiceReference"
+						},
+						"path": "landing/output"
+					},
+					"enableLogging": true,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-11-14T14:46:09Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

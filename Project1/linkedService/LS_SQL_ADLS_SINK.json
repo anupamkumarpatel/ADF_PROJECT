@@ -1,0 +1,20 @@
+{
+	"name": "LS_SQL_ADLS_SINK",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"URL": {
+				"type": "string"
+			},
+			"storageaccountkey": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "@{linkedService().URL}",
+			"accountKey": "@{linkedService().storageaccountkey}"
+		}
+	}
+}

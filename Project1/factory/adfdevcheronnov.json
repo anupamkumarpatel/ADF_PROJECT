@@ -1,0 +1,15 @@
+{
+	"name": "adfdevcheronnov",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "afdf845d-7543-4def-9247-e52732606799",
+		"tenantId": "cece4753-5f78-40b2-adbe-da5b5bc2d65f"
+	}
+}

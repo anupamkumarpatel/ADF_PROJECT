@@ -1,0 +1,24 @@
+{
+	"name": "DS_REST_API_ADLS_SRC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_REST_API_ADLS_SRC",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"restAPIBaseURL": {
+					"value": "@dataset().restAPIBaseURL",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"restAPIBaseURL": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,13 @@
+{
+	"name": "DS_Src_Onprem_SqlServer_TBLLKUP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Src_Onprem_SqlServer_DW",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

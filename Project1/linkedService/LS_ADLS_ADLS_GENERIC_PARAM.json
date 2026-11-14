@@ -1,0 +1,20 @@
+{
+	"name": "LS_ADLS_ADLS_GENERIC_PARAM",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"adlsstorageaccounrname": {
+				"type": "string"
+			},
+			"storageaccountkey": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "@{linkedService().adlsstorageaccounrname}",
+			"accountKey": "@{linkedService().storageaccountkey}"
+		}
+	}
+}
