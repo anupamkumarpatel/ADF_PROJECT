@@ -1,20 +1,19 @@
 {
 	"name": "LS_SqlTable_Parquet",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
-		"parameters": {
-			"URLname": {
-				"type": "string"
-			},
-			"storageaccountkey": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
-			"url": "@{linkedService().URLname}",
-			"accountKey": "@{linkedService().storageaccountkey}"
+			"url": "https://adlsdevcheronnov.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_AzureKeyVaultdevchevron",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "my-adls-AccessKey"
+			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
