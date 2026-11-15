@@ -19,6 +19,10 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().adlsstorageaccounrname}"
 		},
+		"LS_AzureKeyVaultdevchevron_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvaultdevchevron.vault.azure.net/"
+		},
 		"LS_REST_API_ADLS_SRC_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().restAPIBaseURL}"
@@ -26,10 +30,6 @@
 		"LS_SQL_ADLS_SINK_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().URL}"
-		},
-		"LS_SqlTable_Parquet_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "@{linkedService().URLname}"
 		},
 		"LS_SQLSERVER_ADVENTRURE_DB_properties_typeProperties_server": {
 			"type": "string",
@@ -42,6 +42,10 @@
 		"LS_SQLSERVER_ADVENTRURE_DB_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
+		},
+		"LS_SqlTable_Parquet_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdevcheronnov.dfs.core.windows.net"
 		},
 		"LS_Src_Onprem_SqlServer_DW_properties_typeProperties_server": {
 			"type": "string",
@@ -83,6 +87,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_AzureKeyVaultdevchevron')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('LS_AzureKeyVaultdevchevron_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LS_REST_API_ADLS_SRC')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -119,28 +136,6 @@
 				"type": "AzureBlobFS",
 				"typeProperties": {
 					"url": "[parameters('LS_SQL_ADLS_SINK_properties_typeProperties_url')]",
-					"accountKey": "@{linkedService().storageaccountkey}"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_SqlTable_Parquet')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"parameters": {
-					"URLname": {
-						"type": "string"
-					},
-					"storageaccountkey": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('LS_SqlTable_Parquet_properties_typeProperties_url')]",
 					"accountKey": "@{linkedService().storageaccountkey}"
 				}
 			},
@@ -311,34 +306,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_SqlTable_Parquet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SqlTable_Parquet",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Table_Name": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SqlTable_Parquet')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/LS_SQLSERVER_ADVENTRURE_DB')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -364,6 +331,29 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeonprem')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SqlTable_Parquet')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('LS_SqlTable_Parquet_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LS_AzureKeyVaultdevchevron",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "my-adls-AccessKey"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureKeyVaultdevchevron')]"
 			]
 		},
 		{

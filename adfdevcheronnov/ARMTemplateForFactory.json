@@ -19,6 +19,10 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().adlsstorageaccounrname}"
 		},
+		"LS_AzureKeyVaultdevchevron_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvaultdevchevron.vault.azure.net/"
+		},
 		"LS_REST_API_ADLS_SRC_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().restAPIBaseURL}"
@@ -41,7 +45,7 @@
 		},
 		"LS_SqlTable_Parquet_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "@{linkedService().URLname}"
+			"defaultValue": "https://adlsdevcheronnov.dfs.core.windows.net"
 		},
 		"LS_Src_Onprem_SqlServer_DW_properties_typeProperties_server": {
 			"type": "string",
@@ -1584,7 +1588,16 @@
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation"
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().Table_Name,'_',formatDateTime(utcNow(),'yyyyMMddHHmmss'),'.parquet')",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(dataset().Table_Name,'/',formatDateTime(utcNow(),'yyyy/MM/dd'))\n",
+							"type": "Expression"
+						},
+						"fileSystem": "landing"
 					},
 					"compressionCodec": "snappy"
 				},
@@ -1630,6 +1643,19 @@
 				"typeProperties": {
 					"url": "[parameters('LS_ADLS_ADLS_GENERIC_PARAM_properties_typeProperties_url')]",
 					"accountKey": "@{linkedService().storageaccountkey}"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_AzureKeyVaultdevchevron')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('LS_AzureKeyVaultdevchevron_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -1709,22 +1735,23 @@
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"parameters": {
-					"URLname": {
-						"type": "string"
-					},
-					"storageaccountkey": {
-						"type": "string"
-					}
-				},
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
 					"url": "[parameters('LS_SqlTable_Parquet_properties_typeProperties_url')]",
-					"accountKey": "@{linkedService().storageaccountkey}"
+					"accountKey": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LS_AzureKeyVaultdevchevron",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "my-adls-AccessKey"
+					}
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureKeyVaultdevchevron')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/LS_Src_Onprem_SqlServer_DW')]",

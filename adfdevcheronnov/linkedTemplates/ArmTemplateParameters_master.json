@@ -14,6 +14,9 @@
 		"LS_ADLS_ADLS_GENERIC_PARAM_properties_typeProperties_url": {
 			"value": "@{linkedService().adlsstorageaccounrname}"
 		},
+		"LS_AzureKeyVaultdevchevron_properties_typeProperties_baseUrl": {
+			"value": "https://keyvaultdevchevron.vault.azure.net/"
+		},
 		"LS_REST_API_ADLS_SRC_properties_typeProperties_url": {
 			"value": "@{linkedService().restAPIBaseURL}"
 		},
@@ -30,7 +33,7 @@
 			"value": "@{linkedService().URL}"
 		},
 		"LS_SqlTable_Parquet_properties_typeProperties_url": {
-			"value": "@{linkedService().URLname}"
+			"value": "https://adlsdevcheronnov.dfs.core.windows.net"
 		},
 		"LS_Src_Onprem_SqlServer_DW_properties_typeProperties_server": {
 			"value": "ZINEETH\\SQLEXPRESS"
